@@ -35,7 +35,10 @@ app.use(
     secret: "supersecret", // Change this to a strong, random string in production
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // Set to true if using HTTPS
+    cookie: { 
+      secure: false, 
+      maxAge: 15 * 60 * 1000 // 15 phút 
+    } // Set to true if using HTTPS
   })
 );
 
