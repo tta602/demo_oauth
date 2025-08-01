@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  db:
+    image: mariadb:10.5
+    restart: always
+    container_name: demo_mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DEV_MARIADB_PASSWORD}
+      MARIADB_DATABASE: ${DEV_MARIADB_DATABASE}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - demo_network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: demo_nodejs_app
+    ports:
+      - "${DEV_PORT}:${DEV_PORT}"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: npm run dev # hoặc node src/index.js tùy bạn
+    networks:
+      - demo_network
+
+volumes:
+  mariadb_data:
+
+networks:
+  demo_network:
+    driver: bridge
