@@ -18,7 +18,7 @@ async function connect() {
     await sequelize.authenticate();
     console.log('MariaDB connection established');
 
-    await sequelize.sync({ alter: true})
+    // await sequelize.sync({ alter: true})
 
   } catch (error) {
     console.error('Unable to connect to MariaDB:', error.message);

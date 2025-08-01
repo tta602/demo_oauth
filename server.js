@@ -16,7 +16,7 @@ const app = require('./src/app');
 /** init database */
 // require('./src/dbs/init_mongodb');
 
-require('./src/dbs/init_mariadb')
+const sequelize = require('./src/dbs/init_mariadb')
 
 /** init redis */
 // const pubClient = require('./src/dbs/init_redis');
@@ -35,6 +35,7 @@ const PORT = port;
 const {createDefaultOAuthClient} = require('./src/services/oauth.service');
 
 async function startServer() {
+  await sequelize.sync({ alter: true }); 
   await createDefaultOAuthClient();
   server.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
